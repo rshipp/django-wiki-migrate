@@ -1,8 +1,12 @@
+# This repo is a work in progress, and is not yet functional.
+
 django-wiki-migrate
 ===================
 
 Migrate content from your old wiki to your shiny new
 [django-wiki](https://github.com/benjaoming/django-wiki) site.
+
+**Note: This script migrates content ONLY. It will not retain user accounts or page history.**
 
 ## Installation
 
