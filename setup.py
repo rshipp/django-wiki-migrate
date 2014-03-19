@@ -14,6 +14,7 @@ setup(
     name='django-wiki-migrate',
     version='0.1',
     packages=['django_wiki_migrate'],
+    scripts = ['django_wiki_migrate/django-wiki-migrate'],
     include_package_data=True,
     install_requires=requires,
     license='BSD New',
