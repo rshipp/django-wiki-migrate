@@ -1,5 +1,50 @@
 #!/usr/bin/env python
 
+import argparse
+from django_wiki_migrate import *
+
+def main():
+    # argparse
+    parser = argparse.ArgumentParser(
+            description="Migrate content from your old wiki to django-wiki.",
+            epilog = "report bugs to: \
+                https://github.com/george2/django-wiki-migrate/issues",
+    )
+    parser.add_argument('from_url', metavar='FROM_URL', type=str,
+                       help='the url of your old wiki installation')
+    parser.add_argument('to_url', metavar='TO_URL', type=str,
+                       help='the url of your django-wiki installation')
+    parser.add_argument('--type', dest='type', default='MediaWiki',
+                       help='the type of wiki to migrate from')
+    parser.add_argument('--list', action=ListAction, nargs='?',
+                       help='list available wiki types')
+    args = parser.parse_args()
+
+    if args.type in getTypes():
+        # Run the migration
+        migration = getClasses()[args.type](args.from_url, args.to_url)
+        migration.migrate()
+        parser.exit(0)
+    else:
+        parser.exit(1, "Type '%s' not in allowed types\n" % args.type)
+
+# Functions
+def getTypes():
+    # Get a list of all available wiki types.
+    return [ str(t).split('.')[-2].split('To')[-2] for t in ToDjangoWiki.ToDjangoWiki.__subclasses__() ]
+
+def getClasses():
+    # Get a dictionary of class names to classes
+    classes = dict()
+    [ classes.__setitem__(str(c).split('.')[-2].split('To')[-2], c) for c in ToDjangoWiki.ToDjangoWiki.__subclasses__() ]
+    return classes
+
+# List action
+class ListAction(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        print("Available wiki types:")
+        print('  ' + '\n  '.join(getTypes()))
+        parser.exit()
+
 if __name__ == "__main__":
-    # TODO: Argparse stuff, run the migration.
-    pass
+    main()

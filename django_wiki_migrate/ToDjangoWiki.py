@@ -1,6 +1,7 @@
 class ToDjangoWiki(object):
-    def __init__(self, url):
-        self.url = url
+    def __init__(self, from_url, to_url):
+        self.from_url = from_url
+        self.to_url = to_url
         self.pages = dict()
 
     def migrate(self):
