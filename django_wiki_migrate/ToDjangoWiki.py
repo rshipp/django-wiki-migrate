@@ -1,3 +1,6 @@
+class MigrationException(Exception):
+    """Error while migrating."""
+
 class ToDjangoWiki(object):
     def __init__(self, from_url, to_url):
         self.from_url = from_url
