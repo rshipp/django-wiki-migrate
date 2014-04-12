@@ -11,7 +11,7 @@ class ToDjangoWiki(object):
         print("Collecting information from your old wiki...")
         self.findPages()
         for index, page in enumerate(self.pages):
-            print("Migrating page " + str(index+1) + " of " + \
+            print("Migrating page " + str(index+1) + " of " +
                     str(len(self.pages)) + ": " + page)
             self.migratePage(page)
         print("All done!")
