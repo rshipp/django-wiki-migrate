@@ -1,6 +1,16 @@
+import requests
+import execjs
+
+from django_wiki_migrate import urlify
+
+# Constants
+CREATE = '/_create'
+
+# Custom exception
 class MigrationException(Exception):
     """Error while migrating."""
 
+# Base class
 class ToDjangoWiki(object):
     def __init__(self, from_url, to_url, username, password):
         self.from_url = from_url
@@ -24,6 +34,17 @@ class ToDjangoWiki(object):
     def migratePage(self, title):
         raise NotImplementedError("Override the migratePage method in your subclass")
 
+    def slugify(self, title):
+        """Turn a title into a slug, using Django-wiki's JS algorithms."""
+        urlify = execjs.compile(urlify.URLIFY + urlify.URLIFY_DJANGO_WIKI)
+        urlify.call("slugify", title)
+
     def createPage(self, title, content):
-        # TODO: Create a new page on the django-wiki site.
-        pass
+        """Create a new page on the django-wiki site."""
+        data = {
+            'title': title,
+            'slug': slugify(title),
+            'content': content,
+            'summary': 'Page created automatically by django-wiki-migrate.',
+        }
+        requests.post(self.to_url + CREATE, data)
