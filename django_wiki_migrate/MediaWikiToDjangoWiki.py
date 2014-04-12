@@ -23,21 +23,19 @@ class MediaWikiToDjangoWiki(ToDjangoWiki):
             api_base = self.from_url + "api.php"
         api_allpages = api_base + "?action=query&list=allpages&format=xml&aplimit=500&apfrom="
 
+        # Find and add all the pages.
         try:
             allpages = list()
             results = xml_wget(api_allpages)
             while True:
-                allpages += results.query.allpages
+                for page in results.query.allpages.p:
+                    self.pages[page.title.encode('utf-8')] = self.from_url + page.title.encode('utf-8')
                 if not results.query_continue:
                     break
                 results = xml_wget(api_allpages +
                     results.query_continue.allpages.apcontinue)
         except xml.sax._exceptions.SAXParseException as e:
             raise MigrationException("Error while parsing information from MediaWiki API", e)
-
-        for item in allpages:
-            for page in item.p:
-                self.pages[page.title.encode('utf-8')] = self.from_url + page.title.encode('utf-8')
 
     def migratePage(self, title):
         # TODO: Given a page title from self.pages, convert the page
