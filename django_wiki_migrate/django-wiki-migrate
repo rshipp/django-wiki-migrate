@@ -14,13 +14,13 @@ def main():
                        help='the url of your old wiki installation')
     parser.add_argument('to_url', metavar='TO_URL', type=str,
                        help='the url of your django-wiki installation')
-    parser.add_argument('--type', dest='type', default='MediaWiki',
+    parser.add_argument('-t', '--type', dest='type', default='MediaWiki',
                        help='the type of wiki to migrate from')
-    parser.add_argument('--list', action=ListAction, nargs=0,
+    parser.add_argument('-l', '--list', action=ListAction, nargs=0,
                        help='list available wiki types')
-    parser.add_argument('--username', dest='username', default=None,
+    parser.add_argument('-u', '--username', dest='username', default=None,
                        help='django-wiki username')
-    parser.add_argument('--password', dest='password', default=None,
+    parser.add_argument('-p', '--password', dest='password', default=None,
                        help='django-wiki password')
     args = parser.parse_args()
 
