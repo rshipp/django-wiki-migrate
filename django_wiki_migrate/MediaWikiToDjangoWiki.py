@@ -25,11 +25,10 @@ class MediaWikiToDjangoWiki(ToDjangoWiki):
 
         # Find and add all the pages.
         try:
-            allpages = list()
             results = xml_wget(api_allpages)
             while True:
                 for page in results.query.allpages.p:
-                    self.pages[page.title.encode('utf-8')] = self.from_url + page.title.encode('utf-8')
+                    self.pages += [page.title.encode('utf-8')]
                 if not results.query_continue:
                     break
                 results = xml_wget(api_allpages +
@@ -37,8 +36,17 @@ class MediaWikiToDjangoWiki(ToDjangoWiki):
         except xml.sax._exceptions.SAXParseException as e:
             raise MigrationException("Error while parsing information from MediaWiki API", e)
 
+    def getPage(self, title):
+        """Retrive a page from MediaWiki's Special:Export function."""
+        export_page = self.from_url + "Special:Export&action=submit"
+        data = {
+            'pages': title,
+        }
+        return requests.post(export_page, data).text.encode('utf-8')
+
     def migratePage(self, title):
-        # TODO: Given a page title from self.pages, convert the page
-        # content to the expected format and send it to django-wiki with
-        # self.createPage(title, content)
+        """Given a page title from self.pages, convert the page
+        content to the expected format and send it to django-wiki with
+        self.createPage(title, content)
+        """
         pass

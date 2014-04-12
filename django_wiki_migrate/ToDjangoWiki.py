@@ -7,7 +7,7 @@ class ToDjangoWiki(object):
         self.to_url = to_url
         self.username = username
         self.password = password
-        self.pages = dict()
+        self.pages = list()
 
     def migrate(self):
         print("Collecting information from your old wiki...")
