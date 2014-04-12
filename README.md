@@ -20,10 +20,17 @@ Migrating is easy!
 
     django-wiki-migrate [OPTIONS] FROM_URL TO_URL
 
-For example, 
+For example,
 
-    django-wiki-migrate --type=MediaWiki http://myoldwiki.example.com/ \
-        http://example.com/djangowiki
+    $ django-wiki-migrate --type=MediaWiki -u djangouser \
+        http://myoldwiki.example.com/ http://example.com/djangowiki
+    django-wiki password:
+    Collecting information from your old wiki...
+    Migrating page 1 of XXX: Aaa
+    Migrating page 2 of XXX: Bbb
+    ...
+    Migrating page XXX of XXX: Zzz
+    All done!
 
 Since there is currently only one type implemented, MediaWiki, the
 `--type` flag is optional.
