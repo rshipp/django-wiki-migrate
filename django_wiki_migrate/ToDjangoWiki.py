@@ -2,9 +2,11 @@ class MigrationException(Exception):
     """Error while migrating."""
 
 class ToDjangoWiki(object):
-    def __init__(self, from_url, to_url):
+    def __init__(self, from_url, to_url, username, password):
         self.from_url = from_url
         self.to_url = to_url
+        self.username = username
+        self.password = password
         self.pages = dict()
 
     def migrate(self):

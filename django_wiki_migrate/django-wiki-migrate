@@ -16,13 +16,18 @@ def main():
                        help='the url of your django-wiki installation')
     parser.add_argument('--type', dest='type', default='MediaWiki',
                        help='the type of wiki to migrate from')
-    parser.add_argument('--list', action=ListAction, nargs='?',
+    parser.add_argument('--list', action=ListAction, nargs=0,
                        help='list available wiki types')
+    parser.add_argument('--username', dest='username', default=None,
+                       help='django-wiki username')
+    parser.add_argument('--password', dest='password', default=None,
+                       help='django-wiki password')
     args = parser.parse_args()
 
     if args.type in getTypes():
         # Run the migration
-        migration = getClasses()[args.type](args.from_url, args.to_url)
+        migration = getClasses()[args.type](args.from_url, args.to_url,
+                args.username, args.password)
         migration.migrate()
         parser.exit(0)
     else:
