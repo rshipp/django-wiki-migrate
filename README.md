@@ -14,6 +14,11 @@ Migrate content from your old wiki to your shiny new
     cd django-wiki-migrate
     sudo setup.py install
 
+The script uses [PyExecJS](https://pypi.python.org/pypi/PyExecJS) to
+call some JavaScript functions from Python, so you will also need a
+JavaScript runtime installed. The supported runtimes can be found in the
+PyExecJS documentation.
+
 ## Usage
 
 Migrating is easy!
