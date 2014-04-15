@@ -5,7 +5,6 @@ from django_wiki_migrate.xml2obj import xml2obj, xml
 
 class MediaWikiToDjangoWiki(ToDjangoWiki):
 
-
     def findPages(self):
         """Fill out self.pages."""
 
@@ -15,7 +14,6 @@ class MediaWikiToDjangoWiki(ToDjangoWiki):
         # Attempt to determine which URL format the wiki uses.
         if self.from_url.endswith("index.php?title="):
             api_base = self.from_url.rstrip("index.php?title=") + "api.php"
-
         elif self.from_url.endswith("/"):
             api_base = self.from_url + "api.php"
         else:
